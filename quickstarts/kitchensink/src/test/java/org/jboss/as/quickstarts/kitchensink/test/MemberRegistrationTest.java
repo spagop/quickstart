@@ -6,8 +6,11 @@ import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 
-import org.jboss.arquillian.api.Deployment;
+import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.as.quickstarts.kitchensink.controller.MemberRegistration;
+import org.jboss.as.quickstarts.kitchensink.model.Member;
+import org.jboss.as.quickstarts.kitchensink.util.Resources;
 import org.jboss.logging.Logger;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -16,10 +19,6 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.jboss.as.quickstarts.kitchensink.controller.MemberRegistration;
-import org.jboss.as.quickstarts.kitchensink.model.Member;
-import org.jboss.as.quickstarts.kitchensink.util.Resources;
-
 @RunWith(Arquillian.class)
 public class MemberRegistrationTest {
     @Deployment
@@ -27,7 +26,7 @@ public class MemberRegistrationTest {
         return ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClasses(Member.class, MemberRegistration.class, Resources.class)
                 // addAsManifestResource is incorrectly targeting /META-INF
-                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+                .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
