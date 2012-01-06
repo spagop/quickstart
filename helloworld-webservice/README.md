@@ -29,6 +29,10 @@ or if you are using windows
  
     $JBOSS_HOME/bin/standalone.bat
 
+To deploy the application, you first need to produce the archive to deploy using the following Maven goal:
+
+   mvn package
+
 You can now deploy the artifact to JBoss AS by executing the following command:
 
     mvn jboss-as:deploy
