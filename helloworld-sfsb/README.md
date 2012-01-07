@@ -2,6 +2,7 @@ Jboss-as-helloworld EJB Stateful Session Bean Example
 =====================================================
 
 What is it?
+===========
 
 This example shows how to deploy a EJB 3.1 stateful session bean in JBoss AS7.1 or (EAP 6) and access that bean from a remote Java client program. The Java client uses the JNDI to lookup a proxy for the bean and invoke on that returned proxy.
 
@@ -10,13 +11,13 @@ There are two parts to the example: a server side component and a remote client 
 The server component is comprised of a stateful EJB. The client program looks up the stateful bean via JNDI and invokes methods on them.
 
 System requirements
-
+===================
 All you need to build this project is Java 6.0 (Java SDK 1.6) or better, Maven 3.0 or better.
 
 The application this project produces is designed to be run on a JBoss AS 7.1.0 or EAP 6. The following instructions target JBoss AS 7.1.0, but they also apply to JBoss EAP 6.
 
 Building and deploying the application
-
+======================================
 Start JBoss AS 7.1 (or EAP 6):
 
     $JBOSS_HOME/bin/standalone.sh
