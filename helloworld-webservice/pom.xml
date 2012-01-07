@@ -6,7 +6,7 @@
 	<groupId>org.jboss.as.quickstarts</groupId>
 	<artifactId>jboss-as-helloworld-webservice</artifactId>
 	<version>1.0.0</version>
-	<packaging>ejb</packaging>
+	<packaging>jar</packaging>
 	<name>Webservice - Build basic JAX-WS compatible web service</name>
 	<description>Build basic JAX-WS compatible web service</description>
 
@@ -55,32 +55,21 @@
 			<artifactId>jboss-ejb-api_3.1_spec</artifactId>
 			<scope>provided</scope>
 		</dependency>
-				
-		<!-- Client classpath <dependency> <groupId>org.jboss</groupId> <artifactId>jboss-ejb-client</artifactId> 
-			<version>1.0.0.Beta7</version> <scope>provided</scope> </dependency> <dependency> 
-			<groupId>org.jboss.marshalling</groupId> <artifactId>jboss-marshalling-river</artifactId> 
-			<version>1.3.4.GA</version> </dependency> <dependency> <groupId>org.jboss.marshalling</groupId> 
-			<artifactId>jboss-marshalling</artifactId> <version>1.3.4.GA</version> </dependency> 
-			<dependency> <groupId>org.jboss.xnio</groupId> <artifactId>xnio-nio</artifactId> 
-			<version>3.0.0.CR5</version> </dependency> <dependency> <groupId>org.jboss.xnio</groupId> 
-			<artifactId>xnio-api</artifactId> <version>3.0.0.CR5</version> </dependency> 
-			<dependency> <groupId>org.jboss.remoting3</groupId> <artifactId>jboss-remoting</artifactId> 
-			<version>3.2.0.CR6</version> </dependency> <dependency> <groupId>org.jboss.logging</groupId> 
-			<artifactId>jboss-logging</artifactId> <version>3.1.0.CR2</version> </dependency> 
-			<dependency> <groupId>org.jboss.sasl</groupId> <artifactId>jboss-sasl</artifactId> 
-			<version>1.0.0.Beta9</version> </dependency> -->
 	</dependencies>
 
 	<build>
 		<!-- Set the name of the war, used as the context root when the app is 
 			deployed -->
-		<finalName>jboss-as-helloworld-webservice</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<!-- JBoss AS plugin to deploy war -->
 			<plugin>
 				<groupId>org.jboss.as.plugins</groupId>
 				<artifactId>jboss-as-maven-plugin</artifactId>
 				<version>7.1.0.Beta1b</version>
+				<configuration>
+					<filename>${project.build.finalName}.jar</filename>
+				</configuration>
 			</plugin>
 			<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation 
 				processors -->
@@ -92,22 +81,42 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<phase>test</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>org.jboss.as.quickstarts.client.Client</mainClass>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>run-client</id>
+			<build>
+				<plugins>
+					<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation 
+						processors -->
+					<plugin>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<version>2.3.1</version>
+						<configuration>
+							<source>1.6</source>
+							<target>1.6</target>
+						</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>test</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+								<configuration>
+									<mainClass>org.jboss.as.quickstarts.client.Client</mainClass>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

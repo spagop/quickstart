@@ -44,7 +44,7 @@ The wsdl of the application can be look at the following URL <http://localhost:8
 
 To run the application, use the following Maven goal:
 
-    mvn test
+    mvn test -Prun-client
 
 Note: you can also run the sample standalone application "Client" from your Eclipse IDE 
 After executing the maven goal or from eclipse, the result can look like this:
