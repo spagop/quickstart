@@ -44,7 +44,7 @@ You should see output showing:
 
    * the client sending a method invocation to the stateful bean to buy 3 products ( 2 Memory sticks & 1 Laptop) and then a second invocation to get the content of the shopping cart.
     
-  and can looks lile this:
+  and can look like this:
 
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 Obtained a remote stateful counter for invocation
