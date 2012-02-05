@@ -1,4 +1,4 @@
-package mgmt;
+package org.jboss.as.quickstarts.mgmt;
 
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
@@ -25,13 +25,12 @@ public class Client
 
         try
         {
-            String queueName = "REPLACE_WITH_PROPERTY";
+            String topicName = "REPLACE_WITH_PROPERTY";
             ModelNode op = new ModelNode();
             op.get("operation").set("add");
 
-            op.get("address").add("subsystem", "messaging").add("hornetq-server", "default").add("jms-queue", queueName);
-            op.get("entries").add("queue/" + queueName);
-            op.get("durable").set(true);
+            op.get("address").add("subsystem", "messaging").add("hornetq-server", "default").add("jms-topic", topicName);
+            op.get("entries").add("queue/" + topicName);
 
             result = client.execute(op);
 
@@ -44,17 +43,17 @@ public class Client
                 readOp.get("address").add("subsystem", "messaging").add("hornetq-server", "default");
                 readOp.get("recursive").set(true);
 
-                 result = client.execute(readOp);
+                result = client.execute(readOp);
 
                 if (result.hasDefined("outcome") && "success".equals(result.get("outcome").asString()))
                 {
                     System.out.println("SUCCESS!!!");
-                    System.out.println("The following JMS Queues are now configured");
+                    System.out.println("The following JMS Topics are now configured");
 
-                    ModelNode queueList = result.get("result").get("jms-queue");
+                    ModelNode queueList = result.get("result").get("jms-topic");
                     for (ModelNode queue : queueList.asList())
                     {
-                        System.out.println("-------> JMS Queue: " + queue.asProperty().getName() + " <------");
+                        System.out.println("-------> JMS Topic: " + queue.asProperty().getName() + " <------");
                         for (Property prop : queue.asProperty().getValue().asPropertyList())
                         {
                             System.out.println(prop.getName() + "=" + prop.getValue());
