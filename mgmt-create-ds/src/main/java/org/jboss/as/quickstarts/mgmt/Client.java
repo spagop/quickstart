@@ -1,10 +1,10 @@
 package org.jboss.as.quickstarts.mgmt;
 
-import java.net.InetAddress;
-
 import org.jboss.as.controller.client.ModelControllerClient;
 import org.jboss.dmr.ModelNode;
 import org.jboss.dmr.Property;
+
+import java.net.InetAddress;
 
 /**
  * <p>
@@ -19,7 +19,7 @@ public class Client
     public static void main(String[] args) throws Exception
     {
         ModelControllerClient client = ModelControllerClient.Factory.create(
-                InetAddress.getByName("localhost"), 9999);
+                InetAddress.getByName("10.32.69.24"), 9999, DemoAuthentication.getCallbackHandler());
         try
         {
             String dsname = "REPLACE_WITH_PROPERTY";
@@ -29,10 +29,12 @@ public class Client
             op.get("address").add("subsystem", "datasources").add("data-source", dsname);
 
             op.get("jndi-name").set("java:jboss/datasources/" + dsname);
-            op.get("driver-name").set("mysql");
-            op.get("enabled").set(true);
+            //op.get("driver-name").set("mysql");
+            op.get("driver-name").set("postgresql-8.4-703.jdbc4.jar");
             op.get("pool-name").set("TestDS");
-            op.get("connection-url").set("jdbc:mysql://localhost/akdb");
+            op.get("connection-url").set("jdbc:postgresql://localhost/test");
+            op.get("max-pool-size").set(10);
+            op.get("min-pool-size").set(5);
 
             ModelNode result = client.execute(op);
 
@@ -62,6 +64,13 @@ public class Client
                         }
                     }
                 }
+
+                op = new ModelNode();
+                op.get("operation").set("enable");
+                op.get("address").add("subsystem", "datasources").add("data-source", dsname);
+                result = client.execute(op);
+
+
             } else if (result.hasDefined("failure-description"))
             {
                 throw new RuntimeException(result.get("failure-description")
