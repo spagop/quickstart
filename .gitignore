@@ -13,7 +13,7 @@ bin
 */.gitignore
 .gitkeep
 /helloworld-jsp
+*.zip
+*.iws
+*.ipr
 
-mgmt-create-ds/mgmt-server-create-ds.iws
-
-mgmt-create-ds/mgmt-server-create-ds.ipr
