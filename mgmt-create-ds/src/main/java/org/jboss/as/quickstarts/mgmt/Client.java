@@ -18,8 +18,10 @@ public class Client
 {
     public static void main(String[] args) throws Exception
     {
+        //ModelControllerClient client = ModelControllerClient.Factory.create(
+          //      InetAddress.getByName("127.0.0.1"), 9999, DemoAuthentication.getCallbackHandler());
         ModelControllerClient client = ModelControllerClient.Factory.create(
-                InetAddress.getByName("10.32.69.24"), 9999, DemoAuthentication.getCallbackHandler());
+                InetAddress.getByName("127.0.0.1"), 9999);
         try
         {
             String dsname = "REPLACE_WITH_PROPERTY";
@@ -29,10 +31,10 @@ public class Client
             op.get("address").add("subsystem", "datasources").add("data-source", dsname);
 
             op.get("jndi-name").set("java:jboss/datasources/" + dsname);
-            //op.get("driver-name").set("mysql");
-            op.get("driver-name").set("postgresql-8.4-703.jdbc4.jar");
+            op.get("driver-name").set("mysql");
+            //op.get("driver-name").set("postgresql-8.4-703.jdbc4.jar");
             op.get("pool-name").set("TestDS");
-            op.get("connection-url").set("jdbc:postgresql://localhost/test");
+            op.get("connection-url").set("jdbc:mysql://localhost/demo");
             op.get("max-pool-size").set(10);
             op.get("min-pool-size").set(5);
 
@@ -68,6 +70,26 @@ public class Client
                 op = new ModelNode();
                 op.get("operation").set("enable");
                 op.get("address").add("subsystem", "datasources").add("data-source", dsname);
+                result = client.execute(
+                        new ModelNode()
+                                .get("operation").set("enable")
+                                .get("address")
+                                .add("subsystem", "datasources")
+                                .add("data-source", dsname)
+                );
+
+                op = new ModelNode();
+                op.get("operation").set("write-attribute");
+                op.get("address").add("subsystem", "datasources").add("data-source", dsname);
+                op.get("name").set("max-pool-size");
+                op.get("value").set("20");
+                result = client.execute(op);
+
+                op = new ModelNode();
+                op.get("operation").set("write-attribute");
+                op.get("address").add("subsystem", "datasources").add("data-source", dsname);
+                op.get("name").set("min-pool-size");
+                op.get("value").set("10");
                 result = client.execute(op);
 
 

@@ -29,8 +29,8 @@ public class DemoAuthentication {
     // for this reason we cache the entered values to allow for re-use without pestering the end
     // user.
     private boolean promptShown = false;
-    private String userName = null;
-    private char[] password = null;
+    private String userName = "user1";
+    private char[] password = "pwd1".toCharArray();
 
     private DemoAuthentication() {
     }
