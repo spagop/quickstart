@@ -13,3 +13,6 @@ bin
 */.gitignore
 .gitkeep
 /helloworld-jsp
+*.zip
+*.iws
+*.ipr
