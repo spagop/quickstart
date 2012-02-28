@@ -20,7 +20,7 @@ public class Client
     public static void main(String[] args) throws Exception
     {
         ModelControllerClient client = ModelControllerClient.Factory.create(
-                InetAddress.getByName("localhost"), 9999);
+                InetAddress.getByName("10.32.69.185"), 9999, new Authenticator("admin", "redhat"));
 
         ModelNode result;
 
@@ -42,11 +42,13 @@ public class Client
                     && "success".equals(result.get("outcome").asString()))
             {
                 System.out.println(result);
-            } else if (result.hasDefined("failure-description"))
+            }
+            else if (result.hasDefined("failure-description"))
             {
                 throw new RuntimeException(result.get("failure-description")
                         .toString());
-            } else
+            }
+            else
             {
                 throw new RuntimeException(
                         "Operation not successful; outcome = "
