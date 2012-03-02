@@ -10,33 +10,42 @@ import java.net.InetAddress;
  * <p/>
  * Author: <a href="mailto:jhoffmann@redhat.com">Juergen Hoffmann</a>
  * Date:   21.02.12
- * Time:   10:20
+ * Time:   14:12
  */
 public class Client
 {
-
-    public static final String APPLICATION_NAME = "jboss-as-helloworld.war";
+    private static String APPLICATION_NAME = null;
 
     public static void main(String[] args) throws Exception
     {
         ModelControllerClient client = ModelControllerClient.Factory.create(
-                InetAddress.getByName("10.32.69.185"), 9999, new Authenticator("admin", "redhat"));
+                InetAddress.getByName("localhost"), 9999);
+
+        APPLICATION_NAME = (args.length > 0) ? args[0] : "jboss-as-helloworld.war";
 
         ModelNode result;
 
         try
         {
             ModelNode op = new ModelNode();
-            op.get("operation").set("add");
+            op.get("operation").set("undeploy");
             op.get("address").add("deployment", APPLICATION_NAME);
-            // This is the URL for the deployment. Through pom.xml we are getting
-            // the basedir presented, and then we just add the missing path
-            op.get("content").add("url", "file://" + args[0] + "/application/" + APPLICATION_NAME);
-            //op.get("content").add("archive", true);
-            op.get("enabled").set(true);
 
             result = client.execute(op);
 
+            /**
+             * due to https://issues.jboss.org/browse/AS7-3844 it is not possible at the moment
+             * to disable a deployment and set the enabled state to STOPPED
+             *
+             * Therefor we have to use a workaround and undeploy the application first and redeploy
+             * it afterwards with enabled==false
+             */
+            op = new ModelNode();
+            op.get("operation").set("deploy");
+            op.get("address").add("deployment", APPLICATION_NAME);
+            op.get("enabled").set(false);
+
+            result = client.execute(op);
 
             if (result.hasDefined("outcome")
                     && "success".equals(result.get("outcome").asString()))
@@ -59,6 +68,6 @@ public class Client
         {
             client.close();
         }
-    }
 
+    }
 }
