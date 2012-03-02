@@ -6,7 +6,6 @@
     <groupId>org.jboss.as.quickstarts</groupId>
     <artifactId>mgmt-domain-list-deployments</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
     <name>JBoss AS Quickstarts: This Quickstarts shows you how you can list deployments via the mgmt API</name>
 
     <url>http://jboss.org/jbossas</url>
@@ -89,7 +88,6 @@
                                 <argument>hostname</argument>
                                 <argument>username</argument>
                                 <argument>password</argument>
-                                <argument>servergroup</argument>
                             </arguments>
                         </configuration>
                     </execution>
