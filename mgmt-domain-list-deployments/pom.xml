@@ -86,10 +86,10 @@
                         <configuration>
                             <mainClass>org.jboss.as.quickstarts.mgmt.Client</mainClass>
                             <arguments>
-                                <argument>10.32.69.185</argument>
-                                <argument>admin</argument>
-                                <argument>redhat</argument>
-                                <argument>main-server-group</argument>
+                                <argument>hostname</argument>
+                                <argument>username</argument>
+                                <argument>password</argument>
+                                <argument>servergroup</argument>
                             </arguments>
                         </configuration>
                     </execution>
